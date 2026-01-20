@@ -7,7 +7,18 @@ Build an **MIT-licensed, open-source** pipeline that ingests **public match even
 
 ## Core Scope
 * **Ingest + version** StatsBomb Open + **Polymarket** prediction data; **normalize IDs** (team/player/competition); create train/val/test splits.
-* **Polymarket Integration**: Analyze market efficiency by correlating match events (xG, momentum) with live price updates and trade volume.
+* **Polymarket Integration**: Analyze market efficiency by correlating match events (xG, momentum) with historical odds and trade volume. 
+    > [!NOTE]
+    > **Note on Live Data**: We do not provide live price feeds. All Polymarket data is provided as historical Parquet exports for backtesting and analysis.
+
+### Polymarket Data Available
+The following data is available in `data/Polymarket/` for analysis:
+* `soccer_markets.parquet`: Core metadata for soccer markets (questions, slugs, end dates).
+* `soccer_tokens.parquet`: Mapping of markets to specific outcome tokens (e.g., "Yes", "No", team names).
+* `soccer_trades.parquet`: Granular, trade-by-trade execution data (price, size, timestamp).
+* `soccer_odds_history.parquet`: Time-series odds (price history) reconstructed from order books.
+* `soccer_event_stats.parquet`: Aggregated volume and market count per event.
+* `soccer_summary.parquet`: High-level market summaries (trade counts, first/last trade).
 * **Segment** events into **possessions/chains**; derive features like carries, progressive passes, zones of control.
 * **Identity resolution** across providers (e.g., Transfermarkt/FIFA IDs; handle transfers/loans).
 * **Compute + store metrics** (xG, xThreat, field tilt, packing, PPDA) in DuckDB/Postgres (+ PostGIS optional).
